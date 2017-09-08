@@ -16,8 +16,6 @@ class WpaService:
 	SERVICE_RUNNING = False
 	SERVICE_PORT = None
 
-	_REACTOR = None
-
 	class MisconfiguredError(Exception):
 		pass
 
@@ -42,6 +40,5 @@ class WpaService:
 	def stop(cls):
 		cls.SERVICE_PORT = None
 		cls.SERVICE_RUNNING = False
-		cls._REACTOR = None
 
 		reactor.stop()
