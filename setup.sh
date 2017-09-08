@@ -17,9 +17,9 @@ mkdir wpa
 tar -zxvf wpa_supplicant-$WPA_VERSION.tar.gz -C wpa/
 
 echo "Building executables..."
-cp $cwd/.wpa_config $cwd/wpa/wpa_supplicant-$WPA_VERSION/wpa_supplicant/.config
+cp $cwd/src/.wpa_config $cwd/wpa/wpa_supplicant-$WPA_VERSION/wpa_supplicant/.config
 cd $cwd/wpa/wpa_supplicant-$WPA_VERSION/src && make
-cd $cwd/wpa/wpa_supplicant-$WPA_VERSION/wpa_supplicant && make
+cd $cwd/wpa/wpa_supplicant-$WPA_VERSION/wpa_supplicant && make BINDIR=/sbin LIBDIR=/lib
 cd $cwd
 
 echo WPA_EXEC_PATH=$cwd/wpa/wpa_supplicant-$WPA_VERSION/wpa_supplicant > .WPA_PATH
