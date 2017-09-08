@@ -10,10 +10,13 @@ defines an abstraction for the lower level system calls. Currently uses python-w
 # Every method is either a python staticmethod or classmethod to have one runtime
 # source-of-truth.
 class WpaStateMachine:
-	WPA_PATH = None
+	_WPA_CLI_EXECUTABLE = 'wpa_cli'
+	_WPA_CLI_PROCESS = None
+
+	WPA_EXEC_PATH = None
 	CURRENTLY_EXECUTING_CMD = None
 
-	# add more states as needed, but keep STATE_IDLE as it denotes 'readiness' for the ssm
+	# add more states as needed, but keep STATE_IDLE as it denotes 'readiness' for the fsm
 	STATE_IDLE = 0
 	STATE_EXECUTING_CMD = 1
 
@@ -24,7 +27,7 @@ class WpaStateMachine:
 
 	@classmethod
 	def _getWpaPath(cls):
-		if not cls.WPA_PATH:
+		if not cls.WPA_EXEC_PATH:
 			path = os.environ['WPA_EXEC_PATH']
 
 			if len(path):
@@ -37,7 +40,7 @@ class WpaStateMachine:
 		'''
 		Convenience method to run an arbitrary shell command
 
-		cmd - command string
+		cmd - command string or list containing the command and its arguments
 		timeout - seconds to wait for command to terminate, default 60 seconds
 		callback - optional function to act on the stdout and stderr of the command.
 							 should be in form: def func(stdout, stderr): <do something>
@@ -68,4 +71,8 @@ class WpaStateMachine:
 	# TODO: this is an example method that will be replaced with something like: discoverPeers()
 	@staticmethod
 	def test():
-		WpaStateMachine._execute('pwd', callback=WpaStateMachine.testPrint)
+		WpaStateMachine._getWpaPath()
+		flags = ["-i", "wlan0"]
+		cmd = ["sudo", os.path.join(WpaStateMachine.WPA_EXEC_PATH, WpaStateMachine._WPA_CLI_EXECUTABLE)] + flags
+		print("Here is the command: %s"%(cmd))
+		WpaStateMachine._execute(cmd, callback=WpaStateMachine.testPrint)

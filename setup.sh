@@ -18,6 +18,7 @@ tar -zxvf wpa_supplicant-$WPA_VERSION.tar.gz -C wpa/
 
 echo "Building executables..."
 cp $cwd/src/.wpa_config $cwd/wpa/wpa_supplicant-$WPA_VERSION/wpa_supplicant/.config
+cp $cwd/src/.wpa_supplicant.conf $cwd/wpa/wpa_supplicant-$WPA_VERSION/wpa_supplicant/wpa_supplicant.conf
 cd $cwd/wpa/wpa_supplicant-$WPA_VERSION/src && make
 cd $cwd/wpa/wpa_supplicant-$WPA_VERSION/wpa_supplicant && make BINDIR=/sbin LIBDIR=/lib
 cd $cwd
@@ -28,3 +29,12 @@ echo "cleaning up..."
 rm wpa_supplicant-$WPA_VERSION.tar.gz
 
 echo "Completed."
+
+echo \n\n
+echo "Would you like to start wpa_supplicant now?"
+select yn in "Yes" "No"; do
+	case $yn in
+		Yes ) echo "it worked well."; break;;
+		No ) break;;
+	esac
+done
