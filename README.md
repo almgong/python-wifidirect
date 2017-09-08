@@ -12,4 +12,7 @@ Run `setup.sh`. Make any additional configuration as needed.
 Currently using (wpa_supplicant)[https://wiki.archlinux.org/index.php/WPA_supplicant]
 to bootstrap.
 
+##Known issues
+Sometimes the .config file will need to be recopied (will look into this later) to wpa/wpa_supplicant.../wpa_supplicant/ directory in order to build the executables. 
+
 
